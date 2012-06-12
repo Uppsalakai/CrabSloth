@@ -258,6 +258,17 @@ function stopDemoLoop()
     slideDown();
 }
 
+function removeInfoScreen()
+{
+    $('#info-screen').addClass('transitions');
+    setTimeout(function () {
+        $('#info-screen').css('top', '-100%');
+    }, 100);
+    setTimeout(function () {
+        $(this).hide();
+    }, 1500);
+}
+
 function addCosplayImage(id)
 {
     if (typeof(id) == 'undefined' || !id)
@@ -314,6 +325,16 @@ function setCosplayData(values)
     }
 }
 
+function openControlPanel()
+{
+    var controlPanel = window.open('controlpanel.html', '_blank', 'height=370,width=633,menubar=no,status=no,toolbar=no,directories=no,location=no', false)
+}
+
+function receiveMessage(message)
+{
+    eval(message.data);
+}
+
 $(document).ready(function() {
     position();
 
@@ -337,6 +358,16 @@ $(document).ready(function() {
     $('video').attr('volume', '0');
     $("video").prop('muted', true);
 
-    startDemoLoop();
-
+    window.addEventListener("message", receiveMessage, false);
 });
+
+if (window && typeof(window.addEventListener) != 'undefined' && window.addEventListener) {
+    window.addEventListener("keydown", function(e) {
+        if (e.keyCode == 83) {
+            e.preventDefault();
+            removeInfoScreen();
+            openControlPanel();
+            return false;
+        }
+    }, false);
+}

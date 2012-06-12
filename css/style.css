@@ -61,7 +61,7 @@ html, body {
     );
 }
 
-#content-bottom.transitions, .character-image.transitions, .real-name.transitions, .character-name.transitions, .sms-info.transitions, .sms-to.transitions, .sms-number.transitions {
+#content-bottom.transitions, .character-image.transitions, .real-name.transitions, .character-name.transitions, .sms-info.transitions, .sms-to.transitions, .sms-number.transitions, #info-screen.transitions {
     -webkit-transition-property: top, bottom, height, left, right, opacity;
     -webkit-transition-duration: 0.8s;
     -webkit-transition-timing: ease-out;
@@ -286,4 +286,41 @@ html, body {
     .sms-number {
         font-size: 48px;
     }
+}
+
+#info-screen {
+    position: absolute;
+    width: 50%;
+    top: 20%;
+    left: 20%;
+    background: black;
+    color: white;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    padding: 5%;
+
+    background-image: linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+
+    background-image: -webkit-gradient(
+    	linear,
+    	left bottom,
+    	left top,
+    	color-stop(0.00, rgb(0,0,0)),
+    	color-stop(0.50, rgb(24,24,24)),
+    	color-stop(1.00, rgb(69,69,69))
+    );
+}
+
+#info-screen h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#info-screen p {
+    font-size: 16px;
+    margin-bottom: 10px;
 }
