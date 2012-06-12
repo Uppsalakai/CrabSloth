@@ -1,0 +1,287 @@
+/*!
+ * Built by Carl Oscar Aaro <carloscar@agigen.se>, @kalaspuffaaro at Twitter
+ * KavajuchanLazerEyes(tm), code name "CrabSloth". A web based software for displaying Cosplayers during a show
+ * created by UppCon and Agigen.
+ *
+ * This web application should be run in Chrome in Presentation Mode and uses a virtual green screen for your
+ * image mixing software / hardware.
+ *
+ * This is provided as is and were written during an evening before UppCon, use at own risk. :)
+ */
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: none;
+}
+
+html, body {
+    overflow: hidden;
+    cursor: none;
+}
+
+.content {
+    height: 20.5%;
+    width: 100%;
+    display: block;
+    position: relative;
+
+}
+
+#content-bottom {
+    background: rgb(0, 0, 0);
+    height: 20.5%;
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom: -20.5%;
+    z-index: 1;
+    border-top: 1px solid rgb(0, 0, 0);
+
+    background-image: linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(0,0,0) 15%, rgb(24,24,24) 50%, rgb(69,69,69) 100%);
+
+    background-image: -webkit-gradient(
+    	linear,
+    	left bottom,
+    	left top,
+    	color-stop(0.00, rgb(0,0,0)),
+    	color-stop(0.50, rgb(24,24,24)),
+    	color-stop(1.00, rgb(69,69,69))
+    );
+}
+
+#content-bottom.transitions, .character-image.transitions, .real-name.transitions, .character-name.transitions, .sms-info.transitions, .sms-to.transitions, .sms-number.transitions {
+    -webkit-transition-property: top, bottom, height, left, right, opacity;
+    -webkit-transition-duration: 0.8s;
+    -webkit-transition-timing: ease-out;
+    -o-transition-property: top, bottom, height, left, right, opacity;
+    -o-transition-duration: 0.8s;
+    -o-transition-timing: ease-out;
+    -moz-transition-property: top, bottom, height, left, right, opacity;
+    -moz-transition-duration: 0.8s;
+    -moz-transition-timing: ease-out;
+    -ms-transition-property: top, bottom, height, left, right, opacity;
+    -ms-transition-duration: 0.8s;
+    -ms-transition-timing: ease-out;
+    transition-property: top, bottom, height, left, right, opacity;
+    transition-duration: 0.8s;
+    transition-timing: ease-out;
+}
+
+.real-name.transitions, .character-name.transitions, .sms-info.transitions, .sms-to.transitions, .sms-number.transitions {
+    -webkit-transition-duration: 1.2s;
+    -webkit-transition-timing: ease-in;
+    -o-transition-duration: 1.2s;
+    -o-transition-timing: ease-in;
+    -moz-transition-duration: 1.2s;
+    -moz-transition-timing: ease-in;
+    -ms-transition-duration: 1.2s;
+    -ms-transition-timing: ease-in;
+    transition-duration: 1.2s;
+    transition-timing: ease-in;
+}
+
+.sms-info.transitions, .sms-to.transitions, .sms-number.transitions {
+    -webkit-transition-duration: 0.6s;
+    -webkit-transition-timing: ease-in;
+    -o-transition-duration: 0.6s;
+    -o-transition-timing: ease-in;
+    -moz-transition-duration: 0.6s;
+    -moz-transition-timing: ease-in;
+    -ms-transition-duration: 0.6s;
+    -ms-transition-timing: ease-in;
+    transition-duration: 0.6s;
+    transition-timing: ease-in;
+}
+
+#placeholder-background, #placeholder-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#placeholder-video {
+    margin-top: -7%;
+    width: 115%;
+    height: 115%;
+}
+
+.top-pixel {
+    height: 2px;
+    width: 100%;
+    background: rgb(96, 96, 96);
+}
+
+.uc-logo {
+    position: absolute;
+    right: 2%;
+}
+
+.character-image {
+    position: absolute;
+    left: 2%;
+    bottom: -70%;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.character-image .top-pixel {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 4;
+    position: absolute;
+}
+
+.character-image img {
+
+}
+
+.real-name {
+    position: absolute;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: bold;
+    left: 4%;
+    top: 150%;
+    color: rgb(194, 194, 194);
+    white-space: nowrap;
+    line-height: 1px;
+    text-transform: uppercase;
+    font-size: 32px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+    margin-left: 299px;
+}
+
+@media(max-width:1280px){
+    .real-name {
+        font-size: 22px;
+    }
+}
+
+.character-name {
+    position: absolute;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: bold;
+    left: 4%;
+    top: 270%;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    line-height: 1px;
+    font-size: 38px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+    margin-left: 299px;
+}
+
+@media(max-width:1280px){
+    .character-name {
+        font-size: 30px;
+    }
+}
+
+.character-series {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    line-height: 1px;
+    font-size: 22px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+    top: -2px;
+    position: relative;
+}
+
+@media(max-width:1280px){
+    .character-series {
+        top: -1px;
+        font-size: 20px;
+    }
+}
+
+.sms-info {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: bold;
+    color: rgb(194, 194, 194);
+    white-space: nowrap;
+    line-height: 1px;
+    font-size: 32px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+    right: 12%;
+    top: 150%;
+    position: absolute;
+}
+
+@media(max-width:1280px){
+    .sms-info {
+        font-size: 22px;
+    }
+}
+
+.sms-text {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    line-height: 1px;
+    font-size: 32px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+    text-transform: uppercase;
+}
+
+@media(max-width:1280px){
+    .sms-text {
+        font-size: 22px;
+    }
+}
+
+
+.sms-to {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: bold;
+    color: rgb(194, 194, 194);
+    white-space: nowrap;
+    line-height: 1px;
+    font-size: 32px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+    right: 23%;
+    top: 280%;
+    position: absolute;
+    text-transform: uppercase;
+}
+
+@media(max-width:1280px){
+    .sms-to {
+        font-size: 22px;
+    }
+}
+
+.sms-number {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    line-height: 1px;
+    font-size: 56px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+    right: 12%;
+    top: 280%;
+    position: absolute;
+    text-transform: uppercase;
+}
+
+@media(max-width:1280px){
+    .sms-number {
+        font-size: 48px;
+    }
+}
