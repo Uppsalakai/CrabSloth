@@ -1,7 +1,9 @@
 /**
- * @author Carl Oscar Aaro <carloscar@agigen.se>, @kalaspuffaaro at Twitter
- * KavajuchanLazerEyes(tm), code name "CrabSloth". A web based software for displaying Cosplayers during a show
- * created by UppCon and Agigen.
+ * Built by Carl Oscar Aaro <carloscar@agigen.se>, @kalaspuffaaro at Twitter
+ * Design by Tobias Ahlin, @tobiasahlin
+ *
+ * KavajuchanLazerEyes(tm), code name "CrabSloth". A web based software for displaying Cosplayers during a show.
+ * The presentation software was created by UppCon and Agigen.
  *
  * This web application should be run in Chrome in Presentation Mode and uses a virtual green screen for your
  * image mixing software / hardware.
@@ -11,7 +13,7 @@
  * Chroma key is set in the first variable below.
  */
 
-var chromaKey = 'rgb(0, 255, 0)'; /* Virtual green screen */
+var chromaKey = 'rgb(0, 255, 0)'; /* Virtual green screen chroma key */
 var usePlaceholderImage = false;
 var usePlaceholderVideo = false;
 var imageTimeout = null;
