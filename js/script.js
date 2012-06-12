@@ -18,6 +18,7 @@ var imageTimeout = null;
 var demoRunning = false;
 var cosplayData = [ ];
 var currentCosplay = null;
+var panic = false;
 
 function loadCosplayDataCallback(data)
 {
@@ -35,9 +36,20 @@ function setupChromaKey()
     }
 }
 
+function panicMode()
+{
+    panic = true;
+    currentCosplay = null;
+    slideDown(function () {
+        panic = false;
+    });
+}
 
 function slideUp(callback)
 {
+    if (panic)
+        return;
+
     resetTexts(function () {
         $('#content-bottom').css('bottom', 0);
         $('.character-image.character').css('bottom', 0);
@@ -80,6 +92,9 @@ function slideDown(callback)
 
 function slideAwayText(callback)
 {
+    if (panic)
+        return;
+
     $('.real-name').attr('data-left', $('.real-name').css('left'));
     $('.real-name').css('left', '-100%');
     setTimeout(function () {
@@ -144,6 +159,9 @@ function position()
 
 function showCosplay(index)
 {
+    if (panic)
+        return;
+
     if (demoRunning)
         return;
 
@@ -176,6 +194,9 @@ function showCosplay(index)
 
 function hideCosplay(callback)
 {
+    if (panic)
+        return;
+
     if (demoRunning)
         return;
 
@@ -196,11 +217,13 @@ function hideCosplay(callback)
 
 function demoLoop(i)
 {
+    if (panic)
+        return;
+
     if (!demoRunning)
         return;
-    if (typeof(i) == 'undefined' || !i)
-        i = 0;
-    if (typeof(cosplayData[i]) == 'undefined')
+
+    if (typeof(i) == 'undefined' || !i || typeof(cosplayData[i]) == 'undefined')
         i = 0;
 
     setCosplayData(cosplayData[i]);
@@ -312,15 +335,6 @@ $(document).ready(function() {
     $('video').attr('volume', '0');
     $("video").prop('muted', true);
 
-    showCosplay(1);
-    setTimeout(function () {
-        showCosplay(2);
-    }, 4000);
-/*
     startDemoLoop();
-    setTimeout(function () {
-        stopDemoLoop();
-    }, 5000);
-*/
 
 });
