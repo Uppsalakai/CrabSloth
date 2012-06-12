@@ -15,7 +15,9 @@ var chromaKey = 'rgb(0, 255, 0)'; /* Virtual green screen */
 var usePlaceholderImage = false;
 var usePlaceholderVideo = false;
 var imageTimeout = null;
+var demoRunning = false;
 var cosplayData = [ ];
+var currentCosplay = null;
 
 function loadCosplayDataCallback(data)
 {
@@ -99,6 +101,7 @@ function slideAwayText(callback)
 
 function resetTexts(callback)
 {
+    $('#content-bottom, .character-image, .real-name, .character-name, .sms-info, .sms-to, .sms-number, .cosplay-image').removeClass('transitions');
     $('.real-name, .character-name, .sms-info, .sms-to, .sms-number').each(function () {
         var valueLeft = $(this).attr('data-left');
         var valueRight = $(this).attr('data-right');
@@ -111,12 +114,12 @@ function resetTexts(callback)
         $(this).css('opacity', 1);
     });
 
-    $('#content-bottom, .character-image, .real-name, .character-name, .sms-info, .sms-to, .sms-number, .cosplay-image').addClass('transitions');
 
     setTimeout(function () {
+        $('#content-bottom, .character-image, .real-name, .character-name, .sms-info, .sms-to, .sms-number, .cosplay-image').addClass('transitions');
         if (typeof(callback) != 'undefined' && callback)
             callback();
-    }, 1200);
+    }, 100);
 }
 
 function positionLogo()
@@ -139,8 +142,62 @@ function position()
     $('.character-image').css('margin-top', -(height));
 }
 
+function showCosplay(index)
+{
+    if (demoRunning)
+        return;
+
+    if (currentCosplay == index)
+        return;
+
+    if (currentCosplay !== null) {
+        hideCosplay(function () {
+            showCosplay(index);
+        });
+        return;
+    }
+    var arrayIndex = null;
+    for (var i = 0;i < cosplayData.length; i++) {
+        if (cosplayData[i].index == index) {
+            arrayIndex = i;
+            break;
+        }
+    }
+    if (arrayIndex === null)
+        return;
+
+    currentCosplay = index;
+
+    setCosplayData(cosplayData[arrayIndex]);
+    slideUp(function () {
+
+    });
+}
+
+function hideCosplay(callback)
+{
+    if (demoRunning)
+        return;
+
+    if (!currentCosplay) {
+        if (typeof(callback) != 'undefined' && callback)
+            callback();
+        return;
+    }
+
+    slideAwayText(function () {
+        slideDown(function () {
+            currentCosplay = null;
+            if (typeof(callback) != 'undefined' && callback)
+                callback();
+        });
+    });
+}
+
 function demoLoop(i)
 {
+    if (!demoRunning)
+        return;
     if (typeof(i) == 'undefined' || !i)
         i = 0;
     if (typeof(cosplayData[i]) == 'undefined')
@@ -148,14 +205,32 @@ function demoLoop(i)
 
     setCosplayData(cosplayData[i]);
     slideUp(function () {
+        if (!demoRunning)
+            return;
         setTimeout(function () {
+            if (!demoRunning)
+                return;
             slideAwayText(function () {
+                if (!demoRunning)
+                    return;
                 slideDown(function () {
                     demoLoop(i + 1);
                 });
             });
         }, 10000);
     });
+}
+
+function startDemoLoop()
+{
+    demoRunning = true;
+    demoLoop();
+}
+
+function stopDemoLoop()
+{
+    demoRunning = false;
+    slideDown();
 }
 
 function addCosplayImage(id)
@@ -237,6 +312,15 @@ $(document).ready(function() {
     $('video').attr('volume', '0');
     $("video").prop('muted', true);
 
-    demoLoop();
+    showCosplay(1);
+    setTimeout(function () {
+        showCosplay(2);
+    }, 4000);
+/*
+    startDemoLoop();
+    setTimeout(function () {
+        stopDemoLoop();
+    }, 5000);
+*/
 
 });
