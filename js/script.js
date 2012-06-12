@@ -42,7 +42,9 @@ function panicMode()
 {
     panic = true;
     currentCosplay = null;
+    demoRunning = false;
     slideDown(function () {
+        demoRunning = false;
         panic = false;
     });
 }
@@ -248,12 +250,19 @@ function demoLoop(i)
 
 function startDemoLoop()
 {
-    demoRunning = true;
-    demoLoop();
+    if (demoRunning)
+        return;
+
+    hideCosplay(function () {
+        currentCosplay = null;
+        demoRunning = true;
+        demoLoop();
+    });
 }
 
 function stopDemoLoop()
 {
+    currentCosplay = null;
     demoRunning = false;
     slideDown();
 }

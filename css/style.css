@@ -11,7 +11,7 @@
  * This is provided as is and were written during an evening before UppCon, use at own risk. :)
  */
 
-* {
+.crabsloth * {
     -webkit-font-smoothing: antialiased;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -24,7 +24,6 @@
 
 html, body {
     overflow: hidden;
-    cursor: none;
 }
 
 .content {

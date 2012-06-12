@@ -1,0 +1,1 @@
+Due to OS X failure in having a good Full screen support, you will need to run OS X Mountain Lion (to have separate windows fullscreened on separate displays) or a Windows installation with Chrome.
