@@ -21,6 +21,9 @@ var demoRunning = false;
 var cosplayData = [ ];
 var currentCosplay = null;
 var panic = false;
+var unique = Math.random(0, 10000);
+var hidingCosplay = false;
+var showCosplayIndex = null;
 
 function loadCosplayDataCallback(data)
 {
@@ -46,6 +49,7 @@ function panicMode()
     slideDown(function () {
         demoRunning = false;
         panic = false;
+        hidingCosplay = false;
     });
 }
 
@@ -99,15 +103,20 @@ function slideAwayText(callback)
     if (panic)
         return;
 
-    $('.real-name').attr('data-left', $('.real-name').css('left'));
+    if (!$('.real-name').attr('data-left'))
+        $('.real-name').attr('data-left', $('.real-name').css('left'));
     $('.real-name').css('left', '-100%');
     setTimeout(function () {
-        $('.character-name').attr('data-left', $('.character-name').css('left'));
+        if (!$('.character-name').attr('data-left'))
+            $('.character-name').attr('data-left', $('.character-name').css('left'));
         $('.character-name').css('left', '-100%');
     }, 200);
-    $('.sms-info').attr('data-right', $('.sms-info').css('right'));
-    $('.sms-to').attr('data-right', $('.sms-to').css('right'));
-    $('.sms-number').attr('data-right', $('.sms-number').css('right'));
+    if (!$('.sms-info').attr('data-right'))
+        $('.sms-info').attr('data-right', $('.sms-info').css('right'));
+    if (!$('.sms-to').attr('data-right'))
+        $('.sms-to').attr('data-right', $('.sms-to').css('right'));
+    if (!$('.sms-number').attr('data-right'))
+        $('.sms-number').attr('data-right', $('.sms-number').css('right'));
 
     $('.sms-info, .sms-to, .sms-number').css('opacity', 0);
 
@@ -173,8 +182,9 @@ function showCosplay(index)
         return;
 
     if (currentCosplay !== null) {
+        showCosplayIndex = index;
         hideCosplay(function () {
-            showCosplay(index);
+            showCosplay(showCosplayIndex);
         });
         return;
     }
@@ -204,15 +214,21 @@ function hideCosplay(callback)
     if (demoRunning)
         return;
 
+    if (hidingCosplay) {
+        return;
+    }
+
     if (!currentCosplay) {
         if (typeof(callback) != 'undefined' && callback)
             callback();
         return;
     }
 
+    hidingCosplay = true;
     slideAwayText(function () {
         slideDown(function () {
             currentCosplay = null;
+            hidingCosplay = false;
             if (typeof(callback) != 'undefined' && callback)
                 callback();
         });
@@ -244,7 +260,7 @@ function demoLoop(i)
                     demoLoop(i + 1);
                 });
             });
-        }, 10000);
+        }, 1000);//10000);
     });
 }
 
@@ -252,6 +268,8 @@ function startDemoLoop()
 {
     if (demoRunning)
         return;
+
+    hidingCosplay = false;
 
     hideCosplay(function () {
         currentCosplay = null;

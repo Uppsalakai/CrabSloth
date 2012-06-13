@@ -86,7 +86,6 @@
                 window.addEventListener("keydown", function(e) {
                     if (e.shiftKey || e.altKey || e.metaKey)
                         return true;
-                    console.log(e.keyCode);
 
                     if (e.keyCode == 68 && demoMode >= 2) {
                         demoModeOff();
@@ -114,8 +113,30 @@
                     if (e.keyCode == 46) {
                         return true;
                     }
-                    if (e.keyCode == 37 || e.keyCode == 39) {
-                        return true;
+                    if (e.keyCode == 37) {
+                        if (!$('#cosplay-input').val()) {
+                            e.preventDefault();
+                            return false;
+                        }
+                        var num = parseInt($('#cosplay-input').val()) - 1;
+                        $('#cosplay-input').val(num);
+                        parentWindow.postMessage('showCosplay("' + num + '");', '*');
+                        $('#cosplay-input').select();
+                        e.preventDefault();
+                        return false;
+                    }
+                    if (e.keyCode == 39) {
+                        var num = 0;
+                        if (!$('#cosplay-input').val())
+                            num = 1;
+                        else
+                            num = parseInt($('#cosplay-input').val()) + 1;
+
+                        $('#cosplay-input').val(num);
+                        parentWindow.postMessage('showCosplay("' + num + '");', '*');
+                        $('#cosplay-input').select();
+                        e.preventDefault();
+                        return false;
                     }
                     if (e.keyCode == 38) {
                         parentWindow.postMessage('showCosplay("' + $('#cosplay-input').val() + '");', '*');

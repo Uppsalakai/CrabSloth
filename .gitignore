@@ -6,3 +6,15 @@ img/cosplays/.DS_Store
 .DS_Store
 
 cosplayers.js
+
+img/cosplays/*.jpg
+
+img/cosplays/chroma/*.jpg
+
+img/references/*.jpg
+
+img/references/chroma/*.jpg
+
+img/references/1.jpg
+
+img/references/chroma/1.jpg
