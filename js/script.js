@@ -346,7 +346,7 @@ function setCosplayData(values)
         $('.real-name').html(values.user.firstname + ' ' + values.user.lastname.replace(/^(.).*/, '$1.'));
         $('.character-name .name').html(values.name);
         $('.character-series').html('- ' + values.source);
-        $('.sms-text').html('UC COSPLAY ' + values.index);
+        $('.sms-text').html('UC VOTE ' + values.index);
         addCosplayImage(values.index);
         addCharacterImage(values.index);
     }
